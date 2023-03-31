@@ -519,7 +519,7 @@ class CipherTextAnalysis(QWidget):
 
     def analyze_text_for_substitution_cipher(self):
         plain_text = self.plain_text_text_edit.toPlainText()
-        if not plain_text:
+        if not plain_text or self.cipher_type != self.SUBSTITUTION_CIPHER:
             return
         skip = ''.join(map(lambda i: getattr(string, i), self.skip_symbols))
         self.plain_text_freq = chr_frequency(plain_text, skip_symbols=skip)
