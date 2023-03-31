@@ -24,9 +24,8 @@ class BarChartCanvas(FigureCanvasQTAgg):
         # creating the bar plot
         self.axes.bar(x_values, y_values, color='green', width=0.4)
         self.axes.set_xlabel(x_label)
-        plt.xlabel(x_label)
-        plt.ylabel(y_label)
         self.axes.set_ylabel(y_label)
+        self.axes.get_ylabel()
         self.axes.set_title(title)
         super().__init__(figure)
         self.setParent(parent)
@@ -34,8 +33,14 @@ class BarChartCanvas(FigureCanvasQTAgg):
         self.draw()
 
     def update_data(self, x_values, y_values, color='green'):
+        x_label = self.axes.get_xlabel()
+        y_label = self.axes.get_ylabel()
+        title = self.axes.get_title()
         self.axes.clear()
         self.axes.bar(x_values, y_values, color=color, width=0.4)
+        self.axes.set_xlabel(x_label)
+        self.axes.set_ylabel(y_label)
+        self.axes.set_title(title)
         self.draw()
         self.flush_events()
 
@@ -382,6 +387,7 @@ class CipherTextAnalysis(QWidget):
         elif self.cipher_type == self.SUBSTITUTION_CIPHER:
             self.substitution_keys_line_edit = QLineEdit()
             self.substitution_values_line_edit = QLineEdit()
+            self.substitution_values_line_edit.textChanged.connect(self.handle_substitution_values_line_edit_changed)
             vertical_layout_keys.addWidget(self.substitution_keys_line_edit)
             vertical_layout_keys.addWidget(self.substitution_values_line_edit)
 
@@ -417,6 +423,9 @@ class CipherTextAnalysis(QWidget):
 
         self.cipher_key_layout.addLayout(vertical_layout_keys)
         self.cipher_tab.layout().addLayout(self.cipher_key_layout, 1, 0)
+
+    def handle_substitution_values_line_edit_changed(self):
+        self.substitution_cipher_values = self.substitution_values_line_edit.text()
 
     def _remove_layout_and_widgets(self, layout, delete_parent_layout=False):
         for i in reversed(range(layout.count())):
@@ -518,7 +527,7 @@ class CipherTextAnalysis(QWidget):
             raise NotImplementedError
 
     def analyze_text_for_substitution_cipher(self):
-        plain_text = self.plain_text_text_edit.toPlainText()
+        plain_text = self.plain_text_text_edit.toPlainText().upper()
         if not plain_text or self.cipher_type != self.SUBSTITUTION_CIPHER:
             return
         skip = ''.join(map(lambda i: getattr(string, i), self.skip_symbols))
