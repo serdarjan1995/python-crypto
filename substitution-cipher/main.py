@@ -10,7 +10,6 @@ from utils import (
     rot_n_generator, random_shuffle_str, chr_frequency, substitution_cipher, get_top_n_letter_words,
     get_substitution_map_from_freqs, cal_error_rate, substitute_word_as
 )
-import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 
