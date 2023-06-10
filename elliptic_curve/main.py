@@ -19,7 +19,7 @@ G = Coor(Gx, Gy)
 P224 = EllipticCurve(a, b, p, G)
 
 
-class CipherTextAnalysis(QWidget):
+class EllipticCurveWidget(QWidget):
     WINDOW_W = 1000
     WINDOW_H = 700
 
@@ -210,7 +210,7 @@ class CipherTextAnalysis(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = CipherTextAnalysis()
+    window = EllipticCurveWidget()
     window.setWindowTitle('Elliptic curve cryptography')
     window.setWindowIcon(QtGui.QIcon('icon.png'))
     window.setFixedSize(window.WINDOW_W, window.WINDOW_H)
